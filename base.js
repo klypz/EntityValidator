@@ -16,6 +16,7 @@ var EntityValidator = function(entity, validators){
     for(var i = 0; i < props.length; i++){
         //metodos que serão utilizados para validação
         var methods = Object.keys(rules[props[i]])
+
         for(var j = 0; j < methods.length; j++){
             var fnVal =EntityValidator.f[methods[j]]
             if(typeof fnVal === 'function'){
@@ -27,10 +28,10 @@ var EntityValidator = function(entity, validators){
                         result[props[i]] = {}
                     }
                     if(messages !== undefined && messages !== null && messages[methods[j]] !== null){
-                        result[props[i]][methods[i]] =  messages[methods[j]]
+                        result[props[i]][methods[j]] =  messages[methods[j]]
                     }else{
                         
-                        result[props[i]][methods[i]] =  EntityValidator.g.getGlobalization(methods[j])
+                        result[props[i]][methods[j]] =  EntityValidator.g.getGlobalization(methods[j])
                     }
                 }
             }else{

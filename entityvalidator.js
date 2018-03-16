@@ -23,9 +23,9 @@ var EntityValidator = function(entity, validators) {
                         result[props[i]] = {}
                     }
                     if (messages !== undefined && messages !== null && messages[methods[j]] !== null) {
-                        result[props[i]][methods[i]] = messages[methods[j]]
+                        result[props[i]][methods[j]] = messages[methods[j]]
                     } else {
-                        result[props[i]][methods[i]] = EntityValidator.g.getGlobalization(methods[j])
+                        result[props[i]][methods[j]] = EntityValidator.g.getGlobalization(methods[j])
                     }
                 }
             } else {
@@ -54,9 +54,13 @@ EntityValidator.f = {}
 EntityValidator.g['pt-br'] = {
     ex001: 'Não existe regra de validação',
     ex002: 'Metodo informado não existe',
-    'isNotNull': 'Campo obrigatório'
+    'isNotNull': 'Campo obrigatório',
+    'regex': 'Valor não obedeceu a regra'
 }
 EntityValidator.f.isNotNull = function(value, options) {
+    if (!options) {
+        return true
+    }
     if (value === undefined || value === null) {
         return false
     }
@@ -64,5 +68,9 @@ EntityValidator.f.isNotNull = function(value, options) {
         return false
     }
     return true
+}
+EntityValidator.f.regex = function(value, options) {
+    var rgx = new RegExp(options)
+    return !rgx.exec(value)
 }
 EntityValidator.config('globalization', 'pt-br')
