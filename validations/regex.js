@@ -1,5 +1,8 @@
 EntityValidator.f.regex = function(value, options){
+  if(value === undefined || value === null){
+    return true
+  }
   var rgx = new RegExp(options)
   
-  return rgx.exec(value)
+  return rgx.test(value)
 }
