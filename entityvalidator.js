@@ -92,9 +92,52 @@ EntityValidator.f.email = function(value, options) {
     }
     var exp = new RegExp("[A-Za-z0-9\\._-]+@[A-Za-z0-9]+\\.[A-Za-z]+");
     var data = value.trim();
-    if (opcoes) {
+    if (options) {
         return exp.exec(data);
     } else {
+        return true;
+    }
+}
+EntityValidator.f.size = function(value, options) {
+    value = value.trim()
+    if (value == "") return true
+    if (options.min != null) options.min = parseInt(options.min)
+    if (options.max != null) options.max = parseInt(options.max)
+    var result = true
+    if (options.min != null) result = result && value.length >= options.min
+    if (options.max != null) result = result && value.length <= options.max
+    return result
+}
+EntityValidator.f.cpf = function(value, options) {
+    if (value.trim() == "") return true;
+    value = value.trim();
+    value = replaceAll(replaceAll(value, '.', ''), '-', '');
+    if (options) {
+        if (value.length != 11 || value == "00000000000" || value == "11111111111" || value == "22222222222" || value == "33333333333" || value == "44444444444" || value == "55555555555" || value == "66666666666" || value == "77777777777" || value == "88888888888" || value == "99999999999") {
+            return false;
+        }
+        add = 0;
+        for (i = 0; i < 9; i++) {
+            add += parseInt(value.charAt(i)) * (10 - i);
+        }
+        rev = 11 - (add % 11);
+        if (rev == 10 || rev == 11) {
+            rev = 0;
+        }
+        if (rev != parseInt(value.charAt(9))) {
+            return false;
+        }
+        add = 0;
+        for (i = 0; i < 10; i++) {
+            add += parseInt(value.charAt(i)) * (11 - i);
+        }
+        rev = 11 - (add % 11);
+        if (rev == 10 || rev == 11) {
+            rev = 0;
+        }
+        if (rev != parseInt(value.charAt(10))) {
+            return false;
+        }
         return true;
     }
 }
