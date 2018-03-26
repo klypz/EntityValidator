@@ -13,13 +13,28 @@
 <body>
     <span id="msg"></span>
     <script>
+
+        EntityValidator.f.samuel = function (value, con) {//config('globalization', 'en-GB')
+            if (value == null || value === '')
+                return true
+                
+            return value === 'samuel'
+        }
+        EntityValidator.g['pt-br'].samuel = 'deu merda'
+
         var e = {
             nome: 'sdf',
-            email: 'renato@'
+            email: 'renato@',
+            cpf: '000.000.000-00',
+            a: 'samuel'
         }
 
         var result = EntityValidator(e, {
             rules: {
+                a: {
+                    isNotNull: true,
+                    samuel: true
+                },
                 nome: {
                     isNotNull: true,
                     size: { min: 10, max: 30 }
@@ -27,6 +42,9 @@
                 email: {
                     email: true,
                     size: { min: 200 }
+                },
+                cpf: {
+                    cpf: true
                 }
             }
         })
