@@ -6,7 +6,7 @@ EntityValidator.f.email = function(value, options){
     var exp = new RegExp("[A-Za-z0-9\\._-]+@[A-Za-z0-9]+\\.[A-Za-z]+");
     var data = value.trim();
 
-    if (opcoes) {
+    if (options) {
         return exp.exec(data);
     }
     else {

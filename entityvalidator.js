@@ -70,7 +70,32 @@ EntityValidator.f.isNotNull = function(value, options) {
     return true
 }
 EntityValidator.f.regex = function(value, options) {
+    if (value === undefined || value === null) {
+        return true
+    }
     var rgx = new RegExp(options)
-    return rgx.exec(value)
+    return rgx.test(value)
+}
+EntityValidator.f.isInt = function(value, options) {
+    if (!options) {
+        return true
+    }
+    if (value === undefined || value === null) {
+        return true
+    }
+    var tst = new RegExp(/^\d+$/)
+    return tst.test(value.toString())
+}
+EntityValidator.f.email = function(value, options) {
+    if (value == null || value == '') {
+        return true
+    }
+    var exp = new RegExp("[A-Za-z0-9\\._-]+@[A-Za-z0-9]+\\.[A-Za-z]+");
+    var data = value.trim();
+    if (opcoes) {
+        return exp.exec(data);
+    } else {
+        return true;
+    }
 }
 EntityValidator.config('globalization', 'pt-br')
