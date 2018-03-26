@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,7 +9,30 @@
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="entityvalidator.js"></script>
 </head>
+
 <body>
-    aksldjalksjd
+    <span id="msg"></span>
+    <script>
+        var e = {
+            nome: 'sdf',
+            email: 'renato@'
+        }
+
+        var result = EntityValidator(e, {
+            rules: {
+                nome: {
+                    isNotNull: true,
+                    size: { min: 10, max: 30 }
+                },
+                email: {
+                    email: true,
+                    size: { min: 200 }
+                }
+            }
+        })
+
+        console.log(result)
+    </script>
 </body>
+
 </html>

@@ -14,18 +14,25 @@ var EntityValidator = function(entity, validators) {
         //metodos que serão utilizados para validação
         var methods = Object.keys(rules[props[i]])
         for (var j = 0; j < methods.length; j++) {
-            var fnVal = EntityValidator.f[methods[j]]
+            var method = methods[j]
+            var fnVal = EntityValidator.f[method]
             if (typeof fnVal === 'function') {
                 var val = entity[props[i]]
-                var obj = rules[props[i]][methods[j]]
+                var obj = rules[props[i]][method]
                 if (!fnVal(val, obj)) {
                     if (result[props[i]] === undefined) {
-                        result[props[i]] = {}
+                        result[props[i]] = []
                     }
-                    if (messages !== undefined && messages !== null && messages[methods[j]] !== null) {
-                        result[props[i]][methods[j]] = messages[methods[j]]
+                    if (messages !== undefined && messages !== null && messages[method] !== null) {
+                        result[props[i]][result[props[i]].length] = {
+                            type: method,
+                            message: messages[method]
+                        }
                     } else {
-                        result[props[i]][methods[j]] = EntityValidator.g.getGlobalization(methods[j])
+                        result[props[i]][result[props[i]].length] = {
+                            type: method,
+                            message: EntityValidator.g.getGlobalization(method)
+                        }
                     }
                 }
             } else {
@@ -55,7 +62,9 @@ EntityValidator.g['pt-br'] = {
     ex001: 'Não existe regra de validação',
     ex002: 'Metodo informado não existe',
     'isNotNull': 'Campo obrigatório',
-    'regex': 'Valor não obedeceu a regra'
+    'regex': 'Valor não obedeceu a regra',
+    'email': 'Formato de email inválido',
+    'size': 'Tamanho inválido'
 }
 EntityValidator.f.isNotNull = function(value, options) {
     if (!options) {
